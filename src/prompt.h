@@ -47,4 +47,12 @@ uint32_t Prompt_Congratulate(void);
  * answer. */
 uint32_t Prompt_CallAnswerWrong(char *);
 
+/* Tells the user that the word database is empty. It also asks if they want
+ * to add words. */
+uint32_t Prompt_DeclareDatabaseEmpty(void);
+
+/* Tells the user that there is no database file. It also asks if the want to
+ * create one. */
+uint32_t Prompt_DeclareNoDatabase(void);
+
 #endif

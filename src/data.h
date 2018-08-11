@@ -26,9 +26,12 @@
 #define DATA_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
+/* These macros are used by the functions. */
 #define DATA_OK		0
 #define DATA_ERR	1
+#define DATA_FILE_ERR	2
 
 typedef struct Word_ {
 	char		french[30];		// The French word to be translated. It is the question asked
@@ -48,4 +51,5 @@ uint32_t Data_RetrieveWord(Word *, const uint32_t);
  * counting the number of lines until it reaches the EOF marker. */
 
 uint32_t Data_CalculateWordEntries(uint32_t *);
+
 #endif

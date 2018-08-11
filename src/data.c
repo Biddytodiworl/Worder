@@ -31,7 +31,7 @@ uint32_t Data_StoreWord(const Word *entry)  {
 	/* This function assumes that the parameter is well formed and does no
 	 * error checking. Instead, it skips straight to storing the data. */
 
-	FILE *dict = fopen("dict.txt", "a");
+	FILE *dict = fopen("_database.txt", "a");
 	if (NULL == dict) return DATA_ERR;
 
 	fprintf(dict, "%" PRIu32 " %s %s\n", entry->index, entry->french, entry->english);
@@ -42,7 +42,7 @@ uint32_t Data_StoreWord(const Word *entry)  {
 
 uint32_t Data_RetrieveWord(Word *dst, const uint32_t index) {
 	/* Open the word storage file and check for failure */
-	FILE *dict = fopen("dict.txt", "r");
+	FILE *dict = fopen("_database.txt", "r");
 	if (NULL == dict) return DATA_ERR;
 
 	/* Read a line of the file and search for the word with matching index */
@@ -66,7 +66,7 @@ uint32_t Data_RetrieveWord(Word *dst, const uint32_t index) {
 
 uint32_t Data_CalculateWordEntries(uint32_t *num) {
 	/* Open the dict.txt file and check for failure */
-	FILE *dict = fopen("dict.txt", "r");
+	FILE *dict = fopen("_database.txt", "r");
 	if (NULL == dict) return DATA_FILE_ERR;
 
 	/* Start counting the lines */
