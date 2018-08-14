@@ -30,6 +30,7 @@
 /* These macros are codes for success and error */
 #define SCORE_OK	0
 #define SCORE_ERR	1
+#define SCORE_FILE_ERR	2
 
 /* This defines how many points each question is worth */
 #define SCORE_QUANTITY 300

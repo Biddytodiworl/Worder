@@ -34,11 +34,11 @@ uint32_t Score_AwardPoints(uint32_t *tally) {
 }
 
 uint32_t Score_StorePointBalance(const uint32_t balance) {
-	/* Score data is stored in score.txt */
-	FILE *store = fopen("score.txt", "w");
+	/* Score data is stored in _score.txt */
+	FILE *store = fopen("_score.txt", "w");
 
 	/* Exit if unsuccessful */
-	if (NULL == store) return SCORE_ERR;
+	if (NULL == store) return SCORE_FILE_ERR;
 
 	/* Write the point balance to disk */
 	fprintf(store, "%" PRIu32 "\n", balance);
@@ -50,11 +50,11 @@ uint32_t Score_StorePointBalance(const uint32_t balance) {
 }
 
 uint32_t Score_RetrievePointBalance(uint32_t *points) {
-	/* Retrieve score data from score.txt */
-	FILE *store = fopen("score.txt", "r");
+	/* Retrieve score data from _score.txt */
+	FILE *store = fopen("_score.txt", "r");
 
 	/* Exit if unsuccessful */
-	if (NULL == store) return SCORE_ERR;
+	if (NULL == store) return SCORE_FILE_ERR;
 
 	/* Get the point balance from the file */
 	if (1 != (fscanf(store, "%" SCNu32, points)) ) return SCORE_ERR;

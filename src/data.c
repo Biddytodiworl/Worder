@@ -32,7 +32,7 @@ uint32_t Data_StoreWord(const Word *entry)  {
 	 * error checking. Instead, it skips straight to storing the data. */
 
 	FILE *dict = fopen("_database.txt", "a");
-	if (NULL == dict) return DATA_ERR;
+	if (NULL == dict) return DATA_FILE_ERR;
 
 	fprintf(dict, "%" PRIu32 " %s %s\n", entry->index, entry->french, entry->english);
 	fclose(dict);
@@ -65,6 +65,9 @@ uint32_t Data_RetrieveWord(Word *dst, const uint32_t index) {
 }
 
 uint32_t Data_CalculateWordEntries(uint32_t *num) {
+	/* Set the initial value of num to zero */
+	*num = 0;
+
 	/* Open the dict.txt file and check for failure */
 	FILE *dict = fopen("_database.txt", "r");
 	if (NULL == dict) return DATA_FILE_ERR;

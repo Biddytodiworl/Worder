@@ -34,7 +34,7 @@ uint32_t Prompt_GreetUser(void) {
 
 uint32_t Prompt_CallInputInvalid(void) {
 	/* Write the text */
-	puts("Invalid input. Try again\n");
+	puts("\nInvalid input. Try again.\n");
 
 	return PROMPT_OK;
 }
@@ -54,7 +54,7 @@ uint32_t Prompt_ListOptions(void) {
 
 uint32_t Prompt_Congratulate(void) {
 	/* Write the text */
-	puts("You stated the correct answer!\n");
+	puts("\nYou stated the correct answer!\n");
 
 	return PROMPT_OK;
 }
@@ -64,14 +64,14 @@ uint32_t Prompt_CallAnswerWrong(char *right_answer) {
 	if (NULL == right_answer) return PROMPT_ERR;
 
 	/* Write the text and the correct answer */
-	printf("You are wrong. The correct answer is: \'%s\'\n\n", right_answer);
+	printf("\nYou are wrong. The correct answer is: \'%s\'\n\n", right_answer);
 
 	return PROMPT_OK;
 }
 
 uint32_t Prompt_DeclareDatabaseEmpty(void) {
 	/* Write the text */
-	puts("The database is currently empty. Do you want to add items"
+	puts("\nThe database is currently empty. Do you want to add items"
 	" (y/n)?\n");
 
 	return PROMPT_OK;
@@ -79,7 +79,7 @@ uint32_t Prompt_DeclareDatabaseEmpty(void) {
 
 uint32_t Prompt_DeclareNoDatabase(void) {
 	/* Write the text */
-	puts("There is currently no database file. Do you want to create one"
+	puts("\nThere is currently no database file. Do you want to create one"
 	" (y/n)?\n");
 
 	return PROMPT_OK;
