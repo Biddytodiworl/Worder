@@ -34,7 +34,9 @@ uint32_t Data_StoreWord(const Word *entry)  {
 	FILE *dict = fopen("_database.txt", "a");
 	if (NULL == dict) return DATA_FILE_ERR;
 
-	fprintf(dict, "%" PRIu32 " %s %s\n", entry->index, entry->french, entry->english);
+	/* Append this entry to the end of the file then close it */
+	fprintf(dict, "%" PRIu32 " %s %s\n", entry->index, entry->french,
+		   entry->english);
 	fclose(dict);
 
 	return DATA_OK;
@@ -45,19 +47,26 @@ uint32_t Data_RetrieveWord(Word *dst, const uint32_t index) {
 	FILE *dict = fopen("_database.txt", "r");
 	if (NULL == dict) return DATA_ERR;
 
-	/* Read a line of the file and search for the word with matching index */
 	char line_buffer[100];	// Buffer to read line data
 	uint32_t cur_index;	// Stores the current index; used for comparisions
+
+	/* Read a line of the file and search for the word with matching index */
 	while (fgets(line_buffer, 100, dict) != NULL) {
+		/* Skip this line if a valid index can't be found */
 		cur_index = atoi(line_buffer);
 		if (0 == cur_index) continue;
 
+		/* If the desired index is found */
 		if (cur_index == index) {
+			/* Transmit the values to the variables */
 			sscanf(line_buffer, "%" SCNu32 " %s %s", &dst->index, dst->french,
 				   dst->english);
 
+				   /* We did good */
 				   return DATA_OK;
 		}
+
+		/* Keep searching! */
 		else continue;
 	}
 
@@ -72,14 +81,12 @@ uint32_t Data_CalculateWordEntries(uint32_t *num) {
 	FILE *dict = fopen("_database.txt", "r");
 	if (NULL == dict) return DATA_FILE_ERR;
 
-	/* Start counting the lines */
-	uint32_t lines = 0;
 	char buffer[50];
 
+	/* Start counting the lines */
 	while (NULL != (fgets(buffer, 50, dict))) {
-			++lines;
+			(*num)++;
 	}
 
-	*num = lines;
 	return DATA_OK;
 }

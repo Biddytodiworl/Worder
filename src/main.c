@@ -91,8 +91,8 @@ int main() {
 						/* Create a new file */
 						FILE *new_file = fopen("_database.txt", "w");
 
-						if (NULL == new_file) puts("\nFailed to create data"
-						"base file.\n");
+						if (NULL == new_file)
+							puts("\nFailed to create database file.\n");
 						else {
 							puts("Successfully created database.\n");
 							fclose(new_file);
