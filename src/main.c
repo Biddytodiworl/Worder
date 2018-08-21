@@ -41,6 +41,9 @@
 #define MAIN_VIEW_SCORE	3
 #define MAIN_EXIT	4
 
+/* This is the buffer size */
+#define BUF_SZ 50
+
 /* This function contains most of the app logic */
 void Main_PlayGame(uint32_t *);
 
@@ -53,15 +56,17 @@ uint32_t Main_ReadYesNo(void);
 /* This function displays the score stored on record */
 void Main_ShowScore(void);
 
+/* This function deals with adding and removing words from the
+ * second option. */
+void Main_ViewDatabase(void);
+
 int main() {
 	// Initialisation
 	uint32_t num_entries;	// Number of entries
 	uint32_t score = 0;	// The score during the app
-	char buffer[50];	// Buffer for input
+	char buffer[BUF_SZ];	// Buffer for input
 	uint32_t response;	// Response from buffer
 	uint32_t ret;	// Return value from Data_CalculateWordEntries
-
-	Word w = {0};	// Adding records to the database
 
 	Prompt_GreetUser();
 
@@ -99,51 +104,9 @@ int main() {
 						}
 					}
 				}
-
-				else if (0 == num_entries) {
-					Prompt_DeclareDatabaseEmpty();
-
-					/* Read response and add a line for organisation points */
-					response = Main_ReadYesNo();
-					puts("");
-
-					if (MAIN_YES == response) {
-						FILE *new_file = fopen("_database.txt", "w");
-						if (NULL == new_file) puts("\nFailed to create data"
-							"base file.\n");
-						else {
-							/* Continue adding records until the user says no */
-							while (response == MAIN_YES) {
-								w.index += 1;
-
-								printf("Enter the English word: ");
-								fgets(buffer, 30, stdin);
-								sscanf(buffer, "%s", w.english);
-
-								printf("Enter the French word: ");
-								fgets(buffer, 30, stdin);
-								sscanf(buffer, "%s", w.french);
-
-								/* Attempt to store the word */
-								ret = Data_StoreWord(&w);
-								if (DATA_FILE_ERR == ret){
-									printf("Failed to store record.\n");
-									printf("Would you like to try again?");
-								}
-								else {
-									printf("Successfully stored word. Do you want to store another"
-									" (y/n)? ");
-								}
-
-								response = Main_ReadYesNo();
-							}
-
-							fclose(new_file);
-						}
-					}
-				}
 				else {
-					Main_ListWords();
+					// Main_ListWords();
+					Main_ViewDatabase();
 				}
 				break;
 
@@ -215,7 +178,7 @@ void Main_ListWords(void) {
 
 	/* If the database is empty say so, else print what is there */
 	if (0 == num_of_entries ) {
-		printf("\nDatabase is empty.\n\n");
+		printf("\nDatabase is empty.\n");
 		return;
 	}
 
@@ -231,11 +194,11 @@ void Main_ListWords(void) {
 
 uint32_t Main_ReadYesNo(void) {
 	/* Store the response in a 5 character buffer */
-	char buffer[5];
+	char buffer[BUF_SZ];
 	uint32_t response = MAIN_NO;
 
 	/* Read the data and extract the response */
-	fgets(buffer, 5, stdin);
+	fgets(buffer, BUF_SZ, stdin);
 	if ('y' == buffer[0] || 'Y' == buffer[0]) {
 		response = MAIN_YES;
 		return response;
@@ -281,6 +244,80 @@ void Main_ShowScore(void) {
 	}
 	else {
 		printf("\nScore: %" PRIu32 "\n\n", score);
+	}
+
+	return;
+}
+
+void Main_ViewDatabase(void) {
+	char buffer[BUF_SZ];
+	uint32_t response;
+	Word w = {0};
+	uint32_t ret;
+
+	Main_ListWords();
+
+	while (1) {
+		/* These are the options within the View DB option */
+		printf("\nWhat do you want to do?\n\n");
+		printf("1) Refresh database\n");
+		printf("2) Add Entry\n");
+		printf("3) Remove Entry\n");
+		printf("4) Go to main menu\n\n");
+
+		fgets(buffer, BUF_SZ, stdin);
+		response = atoi(buffer);
+
+		switch (response) {
+			/* Failure */
+			case 0:
+			Prompt_CallInputInvalid();
+			break;
+
+			/* Database refresh */
+			case 1:
+			Main_ListWords();
+			break;
+
+			/* Add entry */
+			case 2:
+				Data_CalculateWordEntries(&w.index);
+				w.index += 1;
+
+				printf("Enter the English word: ");
+				fgets(buffer, 30, stdin);
+				sscanf(buffer, "%s", w.english);
+
+				printf("Enter the French word: ");
+				fgets(buffer, 30, stdin);
+				sscanf(buffer, "%s", w.french);
+
+				/* Attempt to store the word */
+				ret = Data_StoreWord(&w);
+				if (DATA_FILE_ERR == ret){
+					printf("Failed to store record.\n");
+					printf("Would you like to try again?");
+				}
+				else {
+					printf("Successfully stored word.\n");
+				}
+
+				break;
+
+			/* Remove an entry */
+			case 3:
+				puts("\nThis is currently unavailable.");
+				break;
+
+			/* Exit */
+			case 4:
+				puts("");
+				return;
+				break;
+			/* Invalid input */
+			default:
+				Prompt_CallInputInvalid();
+		}
 	}
 
 	return;
