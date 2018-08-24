@@ -8,16 +8,28 @@ on wrong answers.
 
 Worder stores a large database of words on disk. More can be added if desired.
 The program linearly selects a word from disk and poses it to the user. It then
-moves on to the next word, giving 300 points on a correct answer and none if
-the answer is incorrect.
+continues to the next word, awarding 300 points for every correct answer.
 
-## Building
+## Build Instructions
 
-### Windows
+To build this project, you must have CMake and a C compiler
+installed. If you don't have CMake get it [here](https://cmake.org/download/).
+If you need a C compiler, get MinGW for Windows or GCC for Linux.
 
-To install Worder on Windows, you must first install [Cmake](https://cmake.org) and
-a form of the GCC C Compiler, such as [MinGW](http://mingw.org). Follow the
-instructions in the Makefile to build the application.
+The basic commands to build and install Worder are:
 
-This is as much information as you need. I just wanted to start you off with the
-software. Sooner or later, you will read the source code. Enjoy the application!
+	$ mkdir build
+	$ cd build
+	$ cmake
+
+If you prefer to use CMake GUI, that's fine. Configure the project as
+necessary and generate a Makefile for your platform. After receiving the
+Makefile, simply type:
+
+	make
+
+Or:
+
+	mingw32-make
+
+If all goes well, you should have an executable in the build folder.
