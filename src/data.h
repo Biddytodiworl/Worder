@@ -48,7 +48,7 @@ uint32_t Data_StoreWord(const Word *);
  * based on the given index number. */
 uint32_t Data_RetrieveWord(Word *, const uint32_t);
 
-/* Counts the number of Word entries in the dict.txt file. It does so by
+/* Counts the number of Word entries in the _database.txt file. It does so by
  * counting the number of lines until it reaches the EOF marker. */
 uint32_t Data_CalculateWordEntries(uint32_t *);
 
