@@ -252,8 +252,8 @@ void Main_ShowScore(void) {
 void Main_ViewDatabase(void) {
 	char buffer[BUF_SZ];
 	uint32_t response;
+	uint32_t return_value;
 	Word w = {0};
-	uint32_t ret;
 
 	Main_ListWords();
 
@@ -262,8 +262,7 @@ void Main_ViewDatabase(void) {
 		printf("\nWhat do you want to do?\n\n");
 		printf("1) Refresh database\n");
 		printf("2) Add Entry\n");
-		printf("3) Remove Entry\n");
-		printf("4) Go to main menu\n\n");
+		printf("3) Go to main menu\n\n");
 
 		fgets(buffer, BUF_SZ, stdin);
 		response = atoi(buffer);
@@ -293,8 +292,8 @@ void Main_ViewDatabase(void) {
 				sscanf(buffer, "%s", w.french);
 
 				/* Attempt to store the word */
-				ret = Data_StoreWord(&w);
-				if (DATA_FILE_ERR == ret){
+				return_value = Data_StoreWord(&w);
+				if (DATA_FILE_ERR == return_value){
 					printf("Failed to store record.\n");
 					printf("Would you like to try again?");
 				}
@@ -306,14 +305,8 @@ void Main_ViewDatabase(void) {
 
 			/* Remove an entry */
 			case 3:
-				puts("\nThis is currently unavailable.");
-				break;
-
-			/* Exit */
-			case 4:
-				puts("");
+				printf("\n");
 				return;
-				break;
 			/* Invalid input */
 			default:
 				Prompt_CallInputInvalid();
