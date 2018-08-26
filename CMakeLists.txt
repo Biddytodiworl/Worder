@@ -10,5 +10,6 @@ add_executable(
 	src/data.c
 	src/prompt.c
 	src/score.c
+	src/main_func.c
 	src/main.c
 )
